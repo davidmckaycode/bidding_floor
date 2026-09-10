@@ -1,7 +1,13 @@
-:root {
---app-background-color: #d7d9d7;
-}
+
 
 :root {
---floating-ui-background-color: #ffffff;
+  /*--app-background-color: linear-gradient(180deg,rgb(252, 252, 252) 0%, rgb(249, 249, 249) 62%);*/
+
+--app-background-color:
+  linear-gradient(307deg, rgba(51, 11, 66, 1) 0%, rgba(46, 10, 61, 1) 10%, rgba(41, 9, 56, 1) 20%, rgba(36, 8, 51, 1) 30%, rgba(31, 7, 46, 1) 40%, rgba(26, 5, 41, 1) 50%, rgba(22, 4, 36, 1) 60%, rgba(17, 3, 31, 1) 70%, rgba(13, 2, 26, 1) 80%, rgba(8, 1, 20, 1) 90%, rgba(3, 0, 15, 1) 100%);
+
+--floating-ui-background-color: linear-gradient(127.09deg, rgba(28, 27, 27, 0.75) 50%, rgba(42, 41, 41, 0.75)100%);
+
+
 }
+
