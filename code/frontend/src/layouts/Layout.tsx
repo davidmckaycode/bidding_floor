@@ -23,7 +23,7 @@ function Side_Bar() {
 			<li><Link to="/listings">Listings</Link></li>
 			<li><Link to="/alerts">Alerts</Link></li>
 		</ul>
-		<Link to="/account" className="mt-auto border-t-1 text-xl">Account</Link>
+		<Link to="/account" className="mt-auto border-t-1 text-2xl text-center">Account</Link>
 	</nav>
   )
 }
