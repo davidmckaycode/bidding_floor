@@ -1,0 +1,76 @@
+CREATE TYPE listing_status AS ENUM(
+'open',
+'closed'
+);
+
+########################################
+
+create table listings (
+id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+public_id UUID NOT NULL DEFAULT gen_random_uuid() UNIQUE,
+
+title varchar(300) NOT NULL,
+description text NOT NULL,
+
+main_image_url text,
+preview_main_image_url text,
+
+status listing_status NOT NULL DEFAULT OPEN,
+
+created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+end_at TIMESTAMPTZ NOT NULL
+
+CONSTRAINT valid_end_time CHECK (end_at > created_at);
+);
+
+########################################
+
+create TABLE listing_photos (
+id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+public_id UUID NOT NULL DEFAULT gen_random_uuid() UNIQUE,
+listing_photo_number int NOT NULL,
+FOREIGN KEY (listing_id) REFERENCES listings(id) 
+
+);
+
+
+########################################
+
+BID
+
+create TABLE bid (
+id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+public UUID NOT NULL DEFAULT gen_random_uuid() UNIQUE,
+FOREIGN KEY (listing_id) REFERENCES listings(id)
+
+
+);
+
+
+########################################
+
+ALERT
+
+create TABLE alerts (
+id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+public_id uuid NOT NULL DEFAULT gen_random_uuid() UNIQUE,
+
+
+
+);
+
+########################################
+
+USER
+
+
+create TABLE users (
+id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+public_id uuid NOT NULL DEFAULT gen_random_uuid() UNIQUE,
+
+username varchar(25) NOT NULL UNIQUE,
+password_hash text NOT NULL,
+
+CHECK (username = lower(username))
+
+);
