@@ -69,8 +69,30 @@ id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 public_id uuid NOT NULL DEFAULT gen_random_uuid() UNIQUE,
 
 username varchar(25) NOT NULL UNIQUE,
+
 password_hash text NOT NULL,
 
 CHECK (username = lower(username))
 
 );
+
+
+#######
+ALTER TABLE users
+ADD CONSTRAINT username_regex
+CHECK (username ~ '^[a-z0-9_]{5,25}$');
+
+############
+
+check username valid
+
+so contains alphabet and numbers only
+
+########################################
+
+check email valid
+
+no spaces, 
+
+
+########################################
