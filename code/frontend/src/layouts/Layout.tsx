@@ -1,6 +1,5 @@
-import { Outlet } from "react-router-dom"
-import {useState} from "react"
-import {Link} from "react-router"
+import { Outlet, Link } from "react-router-dom";
+import {useState, useEffect} from "react"
 
 function Content_Area({setTitleCallback}) {
 
@@ -38,9 +37,42 @@ function TopBar({title}) {
 }
 
 
+type user = {
+	public_id: string;
+	username: string;
+	email: string;
+
+}
+
 export function Layout() {
 
 const [title, setTitle] = useState("");
+
+const [user, setUser] = useState<user | null>(null);
+
+
+
+useEffect(() => {
+
+	async function getUser() {
+		const response = await fetch("/api/auth/me", {credentials: "include"});
+
+		if (response.ok){
+
+			const data = await response.json();
+
+			setUser(data);
+
+			console.log(user);
+		}
+
+	}
+
+	getUser();
+
+
+}, [])
+
 
   return (
 
