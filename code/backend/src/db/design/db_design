@@ -23,6 +23,42 @@ end_at TIMESTAMPTZ NOT NULL
 CONSTRAINT valid_end_time CHECK (end_at > created_at);
 );
 
+
+########################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ########################################
 
 create TABLE listing_photos (
@@ -32,6 +68,40 @@ listing_photo_number int NOT NULL,
 FOREIGN KEY (listing_id) REFERENCES listings(id) 
 
 );
+
+########################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ########################################
@@ -45,6 +115,32 @@ FOREIGN KEY (listing_id) REFERENCES listings(id)
 
 
 );
+########################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ########################################
@@ -58,6 +154,35 @@ public_id uuid NOT NULL DEFAULT gen_random_uuid() UNIQUE,
 
 
 );
+########################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ########################################
 
@@ -76,23 +201,8 @@ CHECK (username = lower(username))
 
 );
 
-
-#######
 ALTER TABLE users
 ADD CONSTRAINT username_regex
 CHECK (username ~ '^[a-z0-9_]{5,25}$');
-
-############
-
-check username valid
-
-so contains alphabet and numbers only
-
-########################################
-
-check email valid
-
-no spaces, 
-
 
 ########################################
