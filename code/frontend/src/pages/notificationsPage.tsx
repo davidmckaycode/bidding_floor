@@ -126,9 +126,9 @@ return (
 
 }
 
-export function AlertsPage() {
+export function NotificationsPage() {
     
-usePageTitle("Alerts");
+usePageTitle("Notifications");
 
 
     

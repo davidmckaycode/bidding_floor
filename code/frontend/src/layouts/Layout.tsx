@@ -1,5 +1,7 @@
 import { Outlet, Link } from "react-router-dom";
 import {useState, useEffect} from "react"
+import {useAuth} from "../context/AuthContext"
+
 
 function Content_Area({setTitleCallback}) {
 
@@ -11,7 +13,7 @@ function Content_Area({setTitleCallback}) {
   )
 }
 
-function Side_Bar() {
+function Side_Bar({user}) {
 
   return (
     <nav className="order-first flex h-full flex-col rounded-4xl shrink-0 bg-(image:--floating-ui-background-color) ">
@@ -20,9 +22,12 @@ function Side_Bar() {
 			<li><Link to="/">Discover</Link></li>
 			<li><Link to="/bids">Bids</Link></li>
 			<li><Link to="/listings">Listings</Link></li>
-			<li><Link to="/alerts">Alerts</Link></li>
+			<li><Link to="/notifications">Notifications</Link></li>
 		</ul>
-		<Link to="/account" className="mt-auto border-t-1 text-2xl text-center">Account</Link>
+
+		{user ? (<Link to="/account" className="mt-auto border-t-1 text-2xl text-center">Account</Link>) :
+		(<Link to="/login" className="mt-auto border-t-1 text-2xl text-center">Login</Link>)
+		}
 	</nav>
   )
 }
@@ -37,18 +42,13 @@ function TopBar({title}) {
 }
 
 
-type user = {
-	public_id: string;
-	username: string;
-	email: string;
-
-}
 
 export function Layout() {
 
+
 const [title, setTitle] = useState("");
 
-const [user, setUser] = useState<user | null>(null);
+const {user, setUser} = useAuth();
 
 
 
@@ -63,7 +63,6 @@ useEffect(() => {
 
 			setUser(data);
 
-			console.log(user);
 		}
 
 	}
@@ -71,14 +70,14 @@ useEffect(() => {
 	getUser();
 
 
-}, [])
+}, [setUser])
 
 
   return (
 
 	<div className="h-dvh w-full p-[1vw] overflow-hidden bg-(image:--app-background-color) **:text-[#ffffff]">
         	<div className="flex flex-1 flex-row w-full h-full">
-        		<div><Side_Bar/></div>
+        		<div><Side_Bar user={user}/></div>
         		<div className="flex flex-col flex-1 pl-[1vw]">
         			<TopBar title={title}/>
         			<Content_Area setTitleCallback={setTitle}/>

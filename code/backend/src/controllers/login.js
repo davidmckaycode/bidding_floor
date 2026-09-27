@@ -32,7 +32,9 @@ export async function login(req, res) {
     req.session.user = user.public_id;
     
     res.json({
-       message: "logged in" 
+       "email": user.email,
+       "username": user.username,
+       "public_id": user.public_id
     });
 
 }

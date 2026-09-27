@@ -28,15 +28,11 @@ const passwordHashed = await argon2.hash(password);
 const sql = `
 INSERT INTO users (username, password_hash, email) 
 VALUES ($1,$2,$3)
-RETURNING public_id, username, email;
 `
 
 const values = [normalisedUsername,passwordHashed,normalisedEmail]
 
 await executeDatabaseQuery(sql,values);
-
-
-
 
 
 res.json({message: "registered worked"})
