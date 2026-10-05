@@ -12,50 +12,16 @@ public_id UUID NOT NULL DEFAULT gen_random_uuid() UNIQUE,
 title varchar(300) NOT NULL,
 description text NOT NULL,
 
-main_image_url text,
-preview_main_image_url text,
-
-status listing_status NOT NULL DEFAULT OPEN,
+status listing_status NOT NULL DEFAULT 'open',
 
 created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-end_at TIMESTAMPTZ NOT NULL
+end_at TIMESTAMPTZ NOT NULL,
 
-CONSTRAINT valid_end_time CHECK (end_at > created_at);
+CONSTRAINT valid_end_time CHECK (end_at > created_at)
 );
 
 
 ########################################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -64,37 +30,22 @@ CONSTRAINT valid_end_time CHECK (end_at > created_at);
 create TABLE listing_photos (
 id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 public_id UUID NOT NULL DEFAULT gen_random_uuid() UNIQUE,
-listing_photo_number int NOT NULL,
-FOREIGN KEY (listing_id) REFERENCES listings(id) 
+
+listing_id BIGINT NOT NULL,
+photo_number int NOT NULL,
+
+image_key TEXT NOT NULL,
+preview_image_key TEXT,
+
+
+FOREIGN KEY (listing_id) REFERENCES listings(id) ON DELETE CASCADE,
+CHECK (photo_number > 0),
+CHECK (photo_number <> 1 OR preview_image_key IS NOT NULL),
+UNIQUE (listing_id, photo_number)
 
 );
 
 ########################################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
