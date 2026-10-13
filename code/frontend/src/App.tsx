@@ -7,7 +7,7 @@ import {Layout} from "./layouts/Layout"
 
 import {DiscoverPage} from "./pages/discover"
 import {BidsPage} from "./pages/bidsPage"
-import {ListingsPage} from "./pages/listingsPage"
+import {ListingsPage} from "./pages/listings/listingsPage"
 import {NotificationsPage} from "./pages/notificationsPage"
 import { AccountPage } from './pages/accountPage'
 import { LoginPage } from './pages/loginPage'
@@ -25,7 +25,17 @@ function App() {
 
 <Route index element={<DiscoverPage/>}/>
 <Route path = "bids" element={<BidsPage/>}/>
+
+
+
+
 <Route path = "listings" element={<ListingsPage/>}/>
+<Route path = "listings/page:/:itemsPerPage" element={<ListingsPage/>}/>
+
+
+
+
+
 <Route path = "notifications" element={<NotificationsPage/>}/>
 <Route path = "account" element={<AccountPage/>}/>
 <Route path = "login" element={<LoginPage/>}/>

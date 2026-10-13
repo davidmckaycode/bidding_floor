@@ -16,7 +16,7 @@ if (!req.session.user) {
 
 
 
-const query = `SELECT public_id, username, email FROM users WHERE public_id = ($1);`
+const query = `SELECT public_id, username, email FROM users WHERE id = ($1);`
 const value = [req.session.user]
 
 const result = await executeDatabaseQuery(query,value);

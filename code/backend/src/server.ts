@@ -3,6 +3,8 @@ import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/auth.js"
 import session from "express-session"
+import listingRoutes from "./routes/listings.js"
+
 
 declare module "express-session" {
     interface SessionData {
@@ -25,6 +27,8 @@ app.use(session({
 }));
 
 app.use("/api/auth", authRoutes);
+app.use("/api/listings", listingRoutes);
+
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

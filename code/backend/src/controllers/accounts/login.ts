@@ -29,7 +29,7 @@ export async function login(req : Request, res: Response) {
         });
     }
 
-    req.session.user = user.public_id;
+    req.session.user = user.id;
     
     res.json({
        "email": user.email,

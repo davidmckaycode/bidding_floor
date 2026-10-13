@@ -20,11 +20,6 @@ end_at TIMESTAMPTZ NOT NULL,
 CONSTRAINT valid_end_time CHECK (end_at > created_at)
 );
 
-
-########################################
-
-
-
 ########################################
 
 create TABLE listing_photos (
@@ -55,6 +50,20 @@ UNIQUE (listing_id, photo_number)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ########################################
 
 BID
@@ -62,11 +71,44 @@ BID
 create TABLE bid (
 id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 public UUID NOT NULL DEFAULT gen_random_uuid() UNIQUE,
-FOREIGN KEY (listing_id) REFERENCES listings(id)
 
+user_id BIGINT NOT NULL REFERENCES users(id), 
+listing_id BIGINT NOT NULL REFERENCES listings(id),
+
+amount numeric(10,2) not null,
+
+created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 
 );
 ########################################
+Auto Bid
+
+create TABLE auto_bid (
+id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+public UUID NOT NULL DEFAULT gen_random_uuid() UNIQUE,
+
+user_id BIGINT NOT NULL REFERENCES users(id), 
+listing_id BIGINT NOT NULL REFERENCES listings(id),
+
+max_amount numeric(10,2) not null,
+
+created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+active boolean NOT NULL DEFAULT TRUE,
+
+CONSTRAINT max_one_autobid_active 
+
+
+);
+
+########################################
+
+
+
+
+
+
+
+
 
 
 
