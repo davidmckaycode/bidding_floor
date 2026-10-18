@@ -1,6 +1,6 @@
 import {usePageTitle} from "../../layouts/usePageTitle"
 import {CreateListingButton} from "./listingsPageModal.tsx"
-import {useParams} from "react-router"
+import {useSearchParams, useNavigate} from "react-router"
 import {useEffect, useState} from "react"
 import {type listingType} from "../../../../shared/listingType.ts"
 
@@ -33,8 +33,13 @@ return (
 
     <img className="w-20" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_W6nMRLTLEaMDqskBVmENvtLEWTnX-YIrOTvyfFC9LT9ITxBLm7cOFyI&s=10"/>
 
-    <div>
-        <p>{JSON.stringify(listing)}</p>
+    <div className="flex">
+        <p>{JSON.stringify(listing.title)}</p>
+        <p>{JSON.stringify(listing.description)}</p>
+        <p>{JSON.stringify(listing.status)}</p>
+        <p>{JSON.stringify(listing.created_at)}</p>
+        <p>{JSON.stringify(listing.end_at)}</p>
+        <p>{JSON.stringify(listing.created_by)}</p>
     </div>
 
 </div>
@@ -62,28 +67,49 @@ return     (
 
 }
 
-function Footer() {
+function Footer({currentPage, totalPages, itemsPerPage}:{currentPage: number; totalPages: number; itemsPerPage: number}) {
+
+
+    const startPage = Math.max(1,Math.min(currentPage-2,totalPages-4));
+
+    const visiblePages = Math.min(5, totalPages);
+
+    const naviagte = useNavigate();
+
+    function goToPage(pageNum :number) {
+
+     naviagte(`/listings?page=${pageNum}&itemsPerPage=${itemsPerPage}`);
+
+    }
 
 return (
 
 <div className="flex justify-between *:flex **:gap-x-1 underline">
 
 <div>
-<p>&lt;&lt;</p>    
-<p>&lt;</p>  
+ <button onClick={() => goToPage(1)} disabled={currentPage <= 1}>&lt;&lt;</button>
+<button onClick={() => goToPage(currentPage - 1)} disabled={currentPage <= 1}>&lt;</button>
 </div>
 
 <div>
-<p>1</p>  
-<p>2</p>  
-<p>3</p>  
-<p>4</p>  
-<p>5</p>  
+{Array.from({length: visiblePages}, (_, i) => (
+                    <button
+                        key={i}
+                        onClick={() => goToPage(startPage + i)}
+                        className={
+                            currentPage === startPage + i
+                                ? "font-bold"
+                                : ""
+                        }
+                    >
+                        {startPage + i}
+                    </button>
+                ))}
 </div>
 
 <div>
-<p>&gt;</p>  
-<p>&gt;&gt;</p>  
+                <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage >= totalPages}>&gt;</button>
+                <button onClick={() => goToPage(totalPages)} disabled={currentPage >= totalPages}>&gt;&gt;</button>
 </div>
     
 </div>)
@@ -98,11 +124,13 @@ export function ListingsPage() {
     
 usePageTitle("Listings");
 
-const params = useParams();
-const page = Number(params.page) || 1;
-const itemsPerPage = Number(params.itemsPerPage) || 20;
+const [searchParams] = useSearchParams();
+
+const page = Number(searchParams.get("page")) || 1;
+const itemsPerPage = Number(searchParams.get("itemsPerPage")) || 5;
 
 const [listingsData, setListingsData] = useState<listingType[]>([]);
+const [pageCount, setPageCount] = useState<number>(0);
 
 //timezone
 
@@ -131,7 +159,8 @@ useEffect(() => {
         })
         .then((data) => {
             console.log(data);
-            setListingsData(data);
+            setListingsData(data.listings);
+            setPageCount(data.pageCount);
         })
 
     }
@@ -209,9 +238,11 @@ useEffect(() => {
 
 <br/>
 <Listings listings={listingsData}/>
-<Footer/>
+<Footer currentPage={page} totalPages={pageCount} itemsPerPage={itemsPerPage}/>
 </div>
 </div>
     ); 
     
 }
+
+//to footer we need to pass, page and maxpage
